@@ -1,15 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 import {useSelector, useDispatch} from 'react-redux';
+import {incCustomAction,
+        incAction,
+        decAction,
+        reset} from './redux/action-creators'
+
 
 function App() {
+  
 
-  //const store = useSelector((store)=>{ Это мы получаем весь стор
-
-  // const counter = useSelector(({counter})=>{
-  // console.log(' useSelector in APP', counter);
-  //   return counter
-  // })
   
   const counter = useSelector(({counter})=>counter);
   const dispatch = useDispatch();
@@ -19,9 +19,10 @@ function App() {
       <h1>
         {`Counter : ${counter}`}
       </h1>
-      <button onClick={()=>dispatch({type:'INC'})}>increment</button>
-      <button onClick={()=>dispatch({type:'DEC'})}>decrement</button>
-      <button onClick={()=>dispatch({type:'RESET'})}>reset</button>
+      <button onClick={()=>dispatch(incCustomAction(102))}>inc custom</button>
+      <button onClick={()=>dispatch(incAction())}>increment</button>
+      <button onClick={()=>dispatch(decAction())}>decrement</button>
+      <button onClick={()=>dispatch(reset())}>reset</button>
     </div>
   );
 }

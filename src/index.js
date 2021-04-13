@@ -10,8 +10,14 @@ const initialState = {
   counter:0
 }
 const reducer = (state = initialState, action)=>{
-  console.log('reducer', action);
+  
   switch (action.type){
+    case 'INC_CUSTOM':{
+      return {
+        ...state,
+        counter: state.counter+action.payload
+      }
+    }
     case 'INC':{
       return {
         ...state,

@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {createStore} from 'redux';
+import {Provider} from 'react-redux';
 
 const initialState = {
   counter:0
@@ -35,21 +36,11 @@ const reducer = (state = initialState, action)=>{
 }
 const store=createStore(reducer)
 
-console.log(store);
-store.subscribe(()=>{
-  console.log('subscriber');
-})
-
-store.dispatch({type:'INC'})
-console.log(store.getState());
-store.dispatch({type:'INC'})
-console.log(store.getState());
-store.dispatch({type:'INC'})
-console.log(store.getState());
-
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

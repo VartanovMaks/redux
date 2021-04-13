@@ -1,41 +1,9 @@
-import { INC_CUSTOM,
-        INC,
-        DEC,
-        RESET 
-    } from '../action-types';
+import { combineReducers } from 'redux';
+import counter1Reducer from './counter-1-reducer'
+import counter2Reducer from './counter-2-reducer'
 
-const initialState = {
-    counter:0
-  }
-  
-  export const reducer = (state = initialState, action)=>{
-    
-    switch (action.type){
-      case INC_CUSTOM:{
-        return {
-          ...state,
-          counter: state.counter+action.payload
-        }
-      }
-      case INC:{
-        return {
-          ...state,
-          counter: state.counter+1
-        }
-      }
-      case DEC:{
-        return {
-        ...state,
-        counter: state.counter-1
-        }
-      }
-      case RESET:{
-        return {
-          ...state,
-          counter: 0
-          }
-      }
-      default :
-      return state;
-    }
-  }
+export const reducer = combineReducers({
+  counter1:counter1Reducer,
+  counter2:counter2Reducer ,
+
+})

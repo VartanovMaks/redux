@@ -6,6 +6,7 @@ const INC_CUSTOM_2='INC_CUSTOM_2';
 const INC_2='INC_2';
 const DEC_2='DEC_2';
 const RESET_2='RESET_2';
+const ON_USERS_LOADED ='ON_USERS_LOADED';
 
 export {
     INC_CUSTOM,
@@ -16,4 +17,5 @@ export {
     INC_2,
     DEC_2,
     RESET_2,
+    ON_USERS_LOADED,
 }

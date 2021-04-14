@@ -5,46 +5,36 @@ import {incCustomAction,
         incAction,
         decAction,
         reset} from './redux/action-creators'
+import {ON_USERS_LOADED} from './redux/action-types'
 
 const PhotosList = ()=>{
-  const [imgList, setImgList] = useState([]);
+
+  const dispatch = useDispatch();
+  const users = useSelector(({userReducer:{users}})=> users)
+
 
   const fetchPhotos = async ()=> {
-    
-    const resp = await fetch('https://simpsons-quotes-api.herokuapp.com/quotes?count=10');
+    const resp = await fetch('https://dummyapi.io/data/api/user?limit=10',{
+      headers:{ 'app-id':'lTE5abbDxdjGplutvTuc'}
+      });
     const json = await resp.json();
-    console.log(json);
-    setImgList(json);
-
+    console.log(json.data);
+    dispatch({type:'ON_USERS_LOADED', payload:json.data})
   }
+
   useEffect ( ()=>{
-    console.log(imgList);
    fetchPhotos() ;
   },[])
 
   return (
     <div>
-      {imgList.map( picture => 
-        <img src={picture.image} 
-            alt ={picture.character} 
-            key={picture.quote}
-            style={{width: "100px"}}
-            >
-        </img>)}
+      {users.map(el=><img key={el.id} src={el.picture} alt={el.firstName}></img>)}
     </div>
   )
 }
 
 
 function App() {
-  // можно сделать два отдельных, а ниже сделан один объект
-  // const counter1 = useSelector(({counter1: {counter}})=>{
-  //   return counter
-  // });
-  // const counter2 = useSelector(({counter2: {counter}})=>{
-  //   return counter
-  // });
-  
   const {counter1, counter2}  = useSelector(({counter1, counter2})=>( {
     counter1:counter1.counter,
     counter2:counter2.counter,
@@ -54,7 +44,7 @@ function App() {
   const dispatch = useDispatch();
   return (
     <div className="App">
-      <PhotosList />
+      {!(counter1 %2) && <PhotosList />}
       <h1>
         {`Counter 1 : ${counter1}`}
       </h1>

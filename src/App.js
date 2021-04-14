@@ -4,10 +4,10 @@ import {useSelector, useDispatch} from 'react-redux';
 import {incCustomAction,
         incAction,
         decAction,
-        reset} from './redux/action-creators'
-import {ON_USERS_LOADED} from './redux/action-types'
+        reset,
+        onUserLoaded} from './redux/action-creators'
 
-const PhotosList = ()=>{
+        const PhotosList = ()=>{
 
   const dispatch = useDispatch();
   const users = useSelector(({userReducer:{users}})=> users)
@@ -19,11 +19,14 @@ const PhotosList = ()=>{
       });
     const json = await resp.json();
     console.log(json.data);
-    dispatch({type:'ON_USERS_LOADED', payload:json.data})
+    // dispatch({type:'ON_USERS_LOADED', payload:json.data})
+    dispatch(onUserLoaded(json.data))
   }
 
   useEffect ( ()=>{
-   fetchPhotos() ;
+    if(!users.length){
+      fetchPhotos() ;
+    }
   },[])
 
   return (

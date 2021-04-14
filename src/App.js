@@ -1,10 +1,39 @@
-import logo from './logo.svg';
+import React, {useEffect, useState, setState} from 'react';
 import './App.css';
 import {useSelector, useDispatch} from 'react-redux';
 import {incCustomAction,
         incAction,
         decAction,
         reset} from './redux/action-creators'
+
+const PhotosList = ()=>{
+  const [imgList, setImgList] = useState([]);
+
+  const fetchPhotos = async ()=> {
+    
+    const resp = await fetch('https://simpsons-quotes-api.herokuapp.com/quotes?count=10');
+    const json = await resp.json();
+    console.log(json);
+    setImgList(json);
+
+  }
+  useEffect ( ()=>{
+    console.log(imgList);
+   fetchPhotos() ;
+  },[])
+
+  return (
+    <div>
+      {imgList.map( picture => 
+        <img src={picture.image} 
+            alt ={picture.character} 
+            key={picture.quote}
+            style={{width: "100px"}}
+            >
+        </img>)}
+    </div>
+  )
+}
 
 
 function App() {
@@ -25,6 +54,7 @@ function App() {
   const dispatch = useDispatch();
   return (
     <div className="App">
+      <PhotosList />
       <h1>
         {`Counter 1 : ${counter1}`}
       </h1>

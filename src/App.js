@@ -5,12 +5,15 @@ import {incCustomAction,
         incAction,
         decAction,
         reset,
-        onUserLoaded} from './redux/action-creators'
+        onUserLoaded,
+        onAddToBad,
+        onRemoveFromBad} from './redux/action-creators'
 
         const PhotosList = ()=>{
 
   const dispatch = useDispatch();
   const users = useSelector(({userReducer:{users}})=> users)
+  const badEmployees = useSelector(({userReducer:{badEmployees}})=> badEmployees)
 
 
   const fetchPhotos = async ()=> {
@@ -31,7 +34,16 @@ import {incCustomAction,
 
   return (
     <div>
-      {users.map(el=><img key={el.id} src={el.picture} alt={el.firstName}></img>)}
+      {users.map(el=><img style={{filter:badEmployees.includes(el.id) ? 'blur(3px)' : ''}}
+                          onClick={()=> {
+                            const alreadyInList = badEmployees.includes(el.id)
+                            dispatch(alreadyInList ? onRemoveFromBad(el.id) :
+                            onAddToBad(el.id))}
+                          } 
+                          key={el.id} 
+                          src={el.picture} 
+                          alt={el.firstName}
+                      ></img>)}
     </div>
   )
 }

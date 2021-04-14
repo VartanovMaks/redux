@@ -20,13 +20,13 @@ const reducer = (state = initialState, action)=>{
       case INC_2:{
         return {
           ...state,
-          counter: state.counter+1
+          counter: state.counter+2
         }
       }
       case DEC_2:{
         return {
         ...state,
-        counter: state.counter-1
+        counter: state.counter-2
         }
       }
       case RESET_2:{

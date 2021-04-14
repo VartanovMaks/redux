@@ -5,6 +5,10 @@ import {incCustomAction,
         incAction,
         decAction,
         reset} from './redux/action-creators'
+import {incCustomAction2,
+        incAction2,
+        decAction2,
+        reset2} from './redux/action-creators'
 
 
 function App() {
@@ -28,13 +32,21 @@ function App() {
       <h1>
         {`Counter 1 : ${counter1}`}
       </h1>
-      <h1>
-        {`Counter 2 : ${counter2}`}
-      </h1>
+      
       <button onClick={()=>dispatch(incCustomAction(102))}>inc custom</button>
       <button onClick={()=>dispatch(incAction())}>increment</button>
       <button onClick={()=>dispatch(decAction())}>decrement</button>
       <button onClick={()=>dispatch(reset())}>reset</button>
+
+      <h1>
+        {`Counter 2 : ${counter2}`}
+      </h1>
+      <button onClick={()=>dispatch(incCustomAction2(52))}>inc custom</button>
+      <button onClick={()=>dispatch(incAction2())}>increment</button>
+      <button onClick={()=>dispatch(decAction2())}>decrement</button>
+      <button onClick={()=>dispatch(reset2())}>reset</button>
+
+
     </div>
   );
 }

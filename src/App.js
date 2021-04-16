@@ -63,7 +63,7 @@ function App() {
   const dispatch = useDispatch();
   return (
     <div className="App">
-      {!(counter1 %2) && <PhotosList />}
+      {/* {!(counter1 %2) && <PhotosList />} */}
       <h1>
         {`Counter 1 : ${counter1}`}
       </h1>

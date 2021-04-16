@@ -24,8 +24,16 @@ const protectCounter = (store)=>(next)=>(action)=> {
     }
     next(action)
 }
+const persister = (store)=>(next)=>(action)=> {
+    
+    next(action)
+    const {counter1} = store.getState();
+    localStorage.setItem('counter1', JSON.stringify(counter1))
+}
 
-const middlewares =[protectCounter, logger];
+const middlewares =[protectCounter, 
+    // logger, 
+    persister];
 export const store = createStore(
 
     reducer,

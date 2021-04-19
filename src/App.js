@@ -58,34 +58,47 @@ import {incCustomAction,
 
 const Products =  ()=>{
   const {products, isLoading}=useSelector(store=> store.products)
-  console.log({products, isLoading});
   const dispatch = useDispatch();
 
   const fetchProducts= async()=>{
 
     try{
       dispatch(startProductsLoading())
-      //const resp= await fetch('https://jsonplaceholder.typicode.com/users');
-      const resp= await fetch('https://fakestoreapi.com/products');
-      const json= await resp.json();
+      //id, wine,winery, image, rating.average
+      const resp= await fetch('https://api.sampleapis.com/wines/reds');
+      const son= await resp.json();
+      // массив большой, поэтому дергаем только первые 10 элементов
+      const prepearedJson=[]
+      for( let i = 0; i<20; i++){
+        prepearedJson.push(son[i])
+      }
       
-      dispatch(setProducts(json))
+      dispatch(setProducts(prepearedJson))
     }catch (e){
       console.error(e);
     }finally{
       dispatch(endProductsLoading())
     }
-
   };
 
   React.useEffect(()=>{
     fetchProducts();
   },[])
+    console.log(products.length)
+
     return (
       <div>
-      {isLoading && (<h1 style={{color:'red'}}>Loading...</h1>
-        )}
-       Products list</div> 
+          {isLoading && (<h1 style={{color:'red'}}>Loading...</h1>)}
+          {!isLoading && !!products.length && products.map(el=>(
+            <div key={el.id}>
+              <h3>Wine id: {el.id}, name: {el.wine}</h3>
+              <h4>Produced by {el.winery}</h4>
+              <p>Rating average : {el.rating.average}</p>
+              <img style={{maxWidth:'100px', height:'100px'}} src={el.image} alt={el.wine}/>
+              <hr/>
+            </div>  
+          ))}
+      </div> 
     )
 }
 

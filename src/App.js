@@ -7,9 +7,13 @@ import {incCustomAction,
         reset,
         onUserLoaded,
         onAddToBad,
-        onRemoveFromBad} from './redux/action-creators'
+        onRemoveFromBad,
+        startProductsLoading,
+        endProductsLoading,
+        setProducts
+      } from './redux/action-creators'
 
-        const PhotosList = ()=>{
+  const PhotosList = ()=>{
 
   const dispatch = useDispatch();
   const users = useSelector(({userReducer:{users}})=> users)
@@ -52,6 +56,38 @@ import {incCustomAction,
   )
 }
 
+const Products =  ()=>{
+  const {products, isLoading}=useSelector(store=> store.products)
+  console.log({products, isLoading});
+  const dispatch = useDispatch();
+
+  const fetchProducts= async()=>{
+
+    try{
+      dispatch(startProductsLoading())
+      //const resp= await fetch('https://jsonplaceholder.typicode.com/users');
+      const resp= await fetch('https://fakestoreapi.com/products');
+      const json= await resp.json();
+      
+      dispatch(setProducts(json))
+    }catch (e){
+      console.error(e);
+    }finally{
+      dispatch(endProductsLoading())
+    }
+
+  };
+
+  React.useEffect(()=>{
+    fetchProducts();
+  },[])
+    return (
+      <div>
+      {isLoading && (<h1 style={{color:'red'}}>Loading...</h1>
+        )}
+       Products list</div> 
+    )
+}
 
 function App() {
   const {counter1, counter2}  = useSelector(({counter1, counter2})=>( {
@@ -64,7 +100,8 @@ function App() {
   return (
     <div className="App">
       {/* {!(counter1 %2) && <PhotosList />} */}
-      <h1>
+      <Products />
+      {/* <h1>
         {`Counter 1 : ${counter1}`}
       </h1>
       <h1>
@@ -73,7 +110,7 @@ function App() {
       <button onClick={()=>dispatch(incCustomAction(102))}>inc custom</button>
       <button onClick={()=>dispatch(incAction())}>increment</button>
       <button onClick={()=>dispatch(decAction())}>decrement</button>
-      <button onClick={()=>dispatch(reset())}>reset</button>
+      <button onClick={()=>dispatch(reset())}>reset</button> */}
     </div>
   );
 }

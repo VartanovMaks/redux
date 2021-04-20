@@ -1,4 +1,5 @@
 import {applyMiddleware, createStore, Middleware} from 'redux';
+import thunk from 'redux-thunk';
 import {reducer} from './reducers';
 import { INC_CUSTOM,
     INC,
@@ -31,7 +32,7 @@ const persister = (store)=>(next)=>(action)=> {
     localStorage.setItem('counter1', JSON.stringify(counter1))
 }
 
-const middlewares =[protectCounter, 
+const middlewares =[thunk, protectCounter, 
     // logger, 
     persister];
 export const store = createStore(

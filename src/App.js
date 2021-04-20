@@ -70,9 +70,10 @@ const Products =  ()=>{
       // массив большой, поэтому дергаем только первые 10 элементов
       const prepearedJson=[]
       for( let i = 0; i<20; i++){
-        prepearedJson.push(son[i])
+        console.log(son[i].rating.average)
+        prepearedJson.push(son[i]);
+        prepearedJson[i].price=Math.round(Math.random()*100);
       }
-      
       dispatch(setProducts(prepearedJson))
     }catch (e){
       console.error(e);
@@ -84,7 +85,6 @@ const Products =  ()=>{
   React.useEffect(()=>{
     fetchProducts();
   },[])
-    console.log(products.length)
 
     return (
       <div>
@@ -95,6 +95,9 @@ const Products =  ()=>{
               <h4>Produced by {el.winery}</h4>
               <p>Rating average : {el.rating.average}</p>
               <img style={{maxWidth:'100px', height:'100px'}} src={el.image} alt={el.wine}/>
+              <p><span style={{fontSize:'24px', color:'blueviolet'}}>Price for bottle - </span>
+                  <span style={{fontSize:'30px', color:'red'}}>${el.price}</span>
+              </p>
               <hr/>
             </div>  
           ))}

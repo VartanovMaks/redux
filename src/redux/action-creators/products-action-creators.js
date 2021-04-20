@@ -15,7 +15,6 @@ const loadProducts = ()=> async (dispatch) => {
         // массив большой, поэтому дергаем только первые 10 элементов
         const prepearedJson=[]
         for( let i = 0; i<20; i++){
-          console.log(son[i].rating.average)
           prepearedJson.push(son[i]);
           prepearedJson[i].price=Math.round(Math.random()*100);
         }

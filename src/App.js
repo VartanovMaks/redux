@@ -11,7 +11,8 @@ import {incCustomAction,
         startProductsLoading,
         endProductsLoading,
         setProducts,
-        loadProducts
+        loadProducts,
+        toggleItemInCart
       } from './redux/action-creators'
 
   const PhotosList = ()=>{
@@ -45,7 +46,6 @@ import {incCustomAction,
                             const answer = !alreadyInList && window.confirm('Удалить человека?')
                             if (answer){
                               return dispatch(onAddToBad(el.id))
-                              
                             }
                             alreadyInList && dispatch(onRemoveFromBad(el.id))
                           }} 
@@ -59,6 +59,7 @@ import {incCustomAction,
 
 const Products =  ()=>{
   const {products, isLoading}=useSelector(store=> store.products)
+  const {productsInCart}=useSelector(store=> store.cart)
   const dispatch = useDispatch();
 
   React.useEffect(()=>{
@@ -66,10 +67,10 @@ const Products =  ()=>{
   },[])
 
     return (
-      <div>
+      <div className='product-wrapper'>
           {isLoading && (<h1 style={{color:'red'}}>Loading...</h1>)}
           {!isLoading && !!products.length && products.map(el=>(
-            <div key={el.id}>
+            <div key={el.id} className='product-item'>
               <h3>Wine id: {el.id}, name: {el.wine}</h3>
               <h4>Produced by {el.winery}</h4>
               <p>Rating average : {el.rating.average}</p>
@@ -77,12 +78,32 @@ const Products =  ()=>{
               <p><span style={{fontSize:'24px', color:'blueviolet'}}>Price for bottle - </span>
                   <span style={{fontSize:'30px', color:'red'}}>${el.price}</span>
               </p>
+              <button>Add to wishlist</button>
+              <button style={{background: productsInCart.includes(el.id) ? 'red' : ''}}
+                onClick={()=>dispatch(toggleItemInCart(el.id))}
+              > {productsInCart.includes(el.id) ? 'remove from cart': 'Add to cart'}</button>
               <hr/>
             </div>  
           ))}
       </div> 
     )
 }
+const Header =()=>{
+  return(
+    <header>
+      <h2>Header</h2>
+      <div className='counters'>
+        <span>
+          Wishlist: 0
+        </span>
+        <span>
+          Counter : 0
+        </span>
+      </div>
+    </header>
+  )
+}
+
 
 function App() {
   const {counter1, counter2}  = useSelector(({counter1, counter2})=>( {
@@ -94,6 +115,7 @@ function App() {
   const dispatch = useDispatch();
   return (
     <div className="App">
+      <Header />
       {/* {!(counter1 %2) && <PhotosList />} */}
       <Products />
       {/* <h1>

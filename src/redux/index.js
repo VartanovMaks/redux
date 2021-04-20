@@ -31,20 +31,11 @@ const persister = (store)=>(next)=>(action)=> {
     const {counter1} = store.getState();
     localStorage.setItem('counter1', JSON.stringify(counter1))
 }
-const customThunk = (store) => (next) =>(action) =>{
-    if(typeof action === 'function'){
-        action(store.dispatch)
-    } else {
-        next(action)
-    }
 
-}
-
-const middlewares =[customThunk, protectCounter, 
+const middlewares =[thunk, protectCounter, 
     // logger, 
     persister];
 export const store = createStore(
-
     reducer,
     applyMiddleware(...middlewares)
     //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

@@ -11,7 +11,9 @@ import {incCustomAction,
         startProductsLoading,
         endProductsLoading,
         setProducts,
-        loadProducts
+        loadProducts,
+        toggleItemInCart,
+        toggleItemInWishlist
       } from './redux/action-creators'
 
   const PhotosList = ()=>{
@@ -57,8 +59,27 @@ import {incCustomAction,
   )
 }
 
+const Header =()=>{
+  return(
+    <header>
+      <h2>Header</h2>
+      <div className='counters'>
+        <span>
+          Wishlist: 0
+        </span>
+        <span>
+          Counter : 0
+        </span>
+      </div>
+    </header>
+  )
+}
+
 const Products =  ()=>{
   const {products, isLoading}=useSelector(store=> store.products)
+  const {productsInCart}=useSelector(store=>store.cart)
+  const {productsInWishlist}=useSelector(store=>store.wishlist)
+
   const dispatch = useDispatch();
 
   React.useEffect(()=>{
@@ -66,10 +87,10 @@ const Products =  ()=>{
   },[])
 
     return (
-      <div>
+      <div className='product-wrapper'>
           {isLoading && (<h1 style={{color:'red'}}>Loading...</h1>)}
           {!isLoading && !!products.length && products.map(el=>(
-            <div key={el.id}>
+            <div key={el.id} className='product-item'>
               <h3>Wine id: {el.id}, name: {el.wine}</h3>
               <h4>Produced by {el.winery}</h4>
               <p>Rating average : {el.rating.average}</p>
@@ -77,6 +98,19 @@ const Products =  ()=>{
               <p><span style={{fontSize:'24px', color:'blueviolet'}}>Price for bottle - </span>
                   <span style={{fontSize:'30px', color:'red'}}>${el.price}</span>
               </p>
+              <button 
+                style={{
+                  background: productsInWishlist.includes(el.id) ? 'red' : ''
+                }}
+                onClick={()=>dispatch(toggleItemInWishlist(el.id))}
+                >{productsInCart.includes(el.id) ?'Remove from wishlist':'Add to wishlist'}</button>
+              <button 
+                style={{
+                  background: productsInCart.includes(el.id) ? 'red' : ''
+                }}
+                onClick={()=>dispatch(toggleItemInCart(el.id))}
+                >{productsInCart.includes(el.id) ?'Remove from cart':'Add to cart'}</button>
+
               <hr/>
             </div>  
           ))}
@@ -94,6 +128,7 @@ function App() {
   const dispatch = useDispatch();
   return (
     <div className="App">
+      <Header />
       {/* {!(counter1 %2) && <PhotosList />} */}
       <Products />
       {/* <h1>

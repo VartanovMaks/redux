@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: lightgrey;
+  padding: 0 12 px;
+  color: white;
+}
+header span {
+  margin-right: 10px;
+}
+.product-item{
+  width:30%;
+  margin: 0 10px;
+}
+.product-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+
+}

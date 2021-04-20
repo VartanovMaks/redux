@@ -10,7 +10,8 @@ import {incCustomAction,
         onRemoveFromBad,
         startProductsLoading,
         endProductsLoading,
-        setProducts
+        setProducts,
+        loadProducts
       } from './redux/action-creators'
 
   const PhotosList = ()=>{
@@ -60,30 +61,8 @@ const Products =  ()=>{
   const {products, isLoading}=useSelector(store=> store.products)
   const dispatch = useDispatch();
 
-  const fetchProducts= async()=>{
-
-    try{
-      dispatch(startProductsLoading())
-      //id, wine,winery, image, rating.average
-      const resp= await fetch('https://api.sampleapis.com/wines/reds');
-      const son= await resp.json();
-      // массив большой, поэтому дергаем только первые 10 элементов
-      const prepearedJson=[]
-      for( let i = 0; i<20; i++){
-        console.log(son[i].rating.average)
-        prepearedJson.push(son[i]);
-        prepearedJson[i].price=Math.round(Math.random()*100);
-      }
-      dispatch(setProducts(prepearedJson))
-    }catch (e){
-      console.error(e);
-    }finally{
-      dispatch(endProductsLoading())
-    }
-  };
-
   React.useEffect(()=>{
-    fetchProducts();
+    dispatch(loadProducts())
   },[])
 
     return (

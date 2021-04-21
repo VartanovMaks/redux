@@ -12,7 +12,8 @@ import {incCustomAction,
         endProductsLoading,
         setProducts,
         loadProducts,
-        toggleItemInCart
+        toggleItemInCart,
+        toggleItemInWishlist
       } from './redux/action-creators'
 
   const PhotosList = ()=>{
@@ -60,6 +61,7 @@ import {incCustomAction,
 const Products =  ()=>{
   const {products, isLoading}=useSelector(store=> store.products)
   const {productsInCart}=useSelector(store=> store.cart)
+  const {productsInWishlist}=useSelector(store=> store.wishlist)
   const dispatch = useDispatch();
 
   React.useEffect(()=>{
@@ -78,7 +80,9 @@ const Products =  ()=>{
               <p><span style={{fontSize:'24px', color:'blueviolet'}}>Price for bottle - </span>
                   <span style={{fontSize:'30px', color:'red'}}>${el.price}</span>
               </p>
-              <button>Add to wishlist</button>
+              <button style={{background: productsInWishlist.includes(el.id) ? 'red' : ''}}
+                onClick={()=>dispatch(toggleItemInWishlist(el.id))}
+              > {productsInWishlist.includes(el.id) ? 'Remove from wishlist': 'Add to wishlist'}</button>
               <button style={{background: productsInCart.includes(el.id) ? 'red' : ''}}
                 onClick={()=>dispatch(toggleItemInCart(el.id))}
               > {productsInCart.includes(el.id) ? 'remove from cart': 'Add to cart'}</button>

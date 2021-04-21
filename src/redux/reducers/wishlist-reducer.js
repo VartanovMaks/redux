@@ -12,15 +12,15 @@ switch (action.type){
   case ADD_PRODUCT_TO_WISHLIST:{
     return {
       ...state,
-     // productsInWishlist: action.payload
+      productsInWishlist: [...state.productsInWishlist, action.payload]
     }
-  }
-  case REMOVE_PRODUCT_FROM_WISHLIST:{
+}
+case REMOVE_PRODUCT_FROM_WISHLIST:{
     return {
-      ...state,
+        ...state,
+        productsInWishlist: state.productsInWishlist.filter(el=>action.payload !==el)
     }
   }
-  
   default :
   return state;
 }

@@ -2,8 +2,10 @@ import { ADD_PRODUCT_TO_CART,
     REMOVE_PRODUCT_FROM_CART
 } from '../action-types';
 
-const initialState = {
-productsInCart: [],
+const initFromLs = localStorage.getItem ('cart');
+
+const initialState = initFromLs ? JSON.parse(initFromLs) : {
+    productsInCart: [],
 }
 
 const reducer = (state = initialState, action)=>{

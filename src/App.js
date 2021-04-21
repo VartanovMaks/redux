@@ -1,4 +1,4 @@
-import React, {useEffect, useState, setState} from 'react';
+import React, {useEffect, useMemo, useState, setState} from 'react';
 import './App.css';
 import {useSelector, useDispatch} from 'react-redux';
 import {incCustomAction,
@@ -93,15 +93,28 @@ const Products =  ()=>{
     )
 }
 const Header =()=>{
+  const {products}=useSelector(store=> store.products);
+  const {productsInCart}=useSelector(store=> store.cart);
+  const {productsInWishlist}=useSelector(store=> store.wishlist);
+  const calculatedCartSum = useMemo(()=>{
+    return products
+      .filter(el => productsInCart.includes(el.id))
+      .reduce((acc,el) => acc+= el.price,0)
+  },[products, productsInCart]);
+  const calculatedWishlistSum = useMemo(()=>{
+    return products
+      .filter(el => productsInWishlist.includes(el.id))
+      .reduce((acc,el) => acc+= el.price,0)
+  },[products, productsInWishlist]);
   return(
     <header>
       <h2>Header</h2>
       <div className='counters'>
         <span>
-          Wishlist: 0
+          Wishlist: {productsInWishlist.length} $ {calculatedWishlistSum}
         </span>
         <span>
-          Counter : 0
+          Cart: {productsInCart.length} $ {calculatedCartSum}
         </span>
       </div>
     </header>

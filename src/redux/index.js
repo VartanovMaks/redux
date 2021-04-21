@@ -26,10 +26,11 @@ const protectCounter = (store)=>(next)=>(action)=> {
     next(action)
 }
 const persister = (store)=>(next)=>(action)=> {
-    
     next(action)
-    const {counter1} = store.getState();
-    localStorage.setItem('counter1', JSON.stringify(counter1))
+
+    const {cart, wishlist} = store.getState();
+    localStorage.setItem('wishlist', JSON.stringify(wishlist))
+    localStorage.setItem('cart', JSON.stringify(cart))
 }
 
 const middlewares =[thunk, protectCounter, 

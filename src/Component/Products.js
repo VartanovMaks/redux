@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {loadProducts,
@@ -6,16 +6,20 @@ import {loadProducts,
         toggleItemInWishlist
 } from '../redux/action-creators'
 import {Product} from './Product';
+const LIMIT_STEP = 5;
 
 export const Products =  ()=>{
     const {products, isLoading}=useSelector(store=> store.products)
     const {productsInCart}=useSelector(store=> store.cart)
     const {productsInWishlist}=useSelector(store=> store.wishlist)
+    const [currentLimit, setCurrentLimit]=useState(LIMIT_STEP)
     const dispatch = useDispatch();
+    
   
-    React.useEffect(()=>{
-      dispatch(loadProducts())
-    },[])
+    useEffect(()=>{
+      dispatch(loadProducts({limit:currentLimit}))
+
+    },[currentLimit])
   
       return (
         <div className='product-wrapper'>
@@ -30,6 +34,7 @@ export const Products =  ()=>{
                     isInWishlist={productsInWishlist.includes(el.id)}
                 />
             ))}
+            <button onClick={()=> setCurrentLimit(prev => prev += LIMIT_STEP )}>Load more</button>
         </div> 
       )
   }

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 import {loadProducts,
         toggleItemInCart,
@@ -22,20 +23,24 @@ export const Products =  ()=>{
     },[currentLimit])
   
       return (
-        <div className='product-wrapper'>
-            {isLoading && (<h1 style={{color:'red'}}>Loading...</h1>)}
-            {!isLoading && !!products.length && products.map(el=>(
-                <Product 
-                    product={el}
-                    key={el.id}
-                    onCartClick={()=>dispatch(toggleItemInCart(el.id))}
-                    onWishlistClick={()=>dispatch(toggleItemInWishlist(el.id))}
-                    isInCart={productsInCart.includes(el.id)}
-                    isInWishlist={productsInWishlist.includes(el.id)}
-                />
-            ))}
-            <button onClick={()=> setCurrentLimit(prev => prev += LIMIT_STEP )}>Load more</button>
-        </div> 
+        <>
+          <div className="product-wrapper">
+              {isLoading && (<h1 style={{color:'red'}}>Loading...</h1>)}
+              {!isLoading && !!products.length && products.map(el=>(
+                  <Link to={`/products/${el.id}`}>
+                  <Product 
+                      product={el}
+                      key={el.id}
+                      onCartClick={()=>dispatch(toggleItemInCart(el.id))}
+                      onWishlistClick={()=>dispatch(toggleItemInWishlist(el.id))}
+                      isInCart={productsInCart.includes(el.id)}
+                      isInWishlist={productsInWishlist.includes(el.id)}
+                  />
+                  </Link>
+              ))}
+          </div> 
+              <button onClick={()=> setCurrentLimit(prev => prev += LIMIT_STEP )}>Load more</button>
+        </>
       )
   }
   

@@ -23,10 +23,12 @@ header span {
   margin-right: 10px;
 }
 .product-item{
-  width:30%;
+  max-width:30%;
   margin: 0 10px;
 }
 .product-wrapper{
+  width:80%;
   display: flex;
+  justify-content: space-around;
   flex-wrap: wrap;
 }

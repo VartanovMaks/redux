@@ -1,10 +1,12 @@
 import React, {useMemo} from 'react';
 import {useSelector} from 'react-redux';
+import { useHistory } from 'react-router';
 
 export const Header =()=>{
     const {products}=useSelector(store=> store.products);
     const {productsInCart}=useSelector(store=> store.cart);
     const {productsInWishlist}=useSelector(store=> store.wishlist);
+    const history = useHistory();
     const calculatedCartSum = useMemo(()=>{
       return products
         .filter(el => productsInCart.includes(el.id))
@@ -17,7 +19,7 @@ export const Header =()=>{
     },[products, productsInWishlist]);
     return(
       <header>
-        <h2>Header</h2>
+        <h2 onClick={()=> history.push('/')}>Header</h2>
         <div className='counters'>
           <span>
             Wishlist: {productsInWishlist.length} $ {calculatedWishlistSum}
